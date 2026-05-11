@@ -1,0 +1,41 @@
+{
+  "artifact_type": "build-plan",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-06",
+  "parent_id": "br0-05",
+  "payload": {
+    "evidence": [
+      "TDD red test captured ModuleNotFoundError before implementation"
+    ],
+    "files_to_touch": [
+      "hermes_cli/buildroom/schemas.py",
+      "hermes_cli/buildroom/validator.py",
+      "hermes_cli/buildroom/summary.py",
+      "tests/fixtures/buildroom/demo-chain/*.json",
+      "tests/test_buildroom_validator.py"
+    ],
+    "rollback_plan": "Remove hermes_cli/buildroom, tests/test_buildroom_validator.py, tests/fixtures/buildroom/demo-chain, and docs/buildroom additions.",
+    "tasks": [
+      {
+        "description": "Define artifact envelope and payload models",
+        "id": "schemas"
+      },
+      {
+        "description": "Create full sanitized demo chain",
+        "id": "fixture"
+      },
+      {
+        "description": "Check order, parent consistency, schemas, and terminal states",
+        "id": "validator"
+      },
+      {
+        "description": "Build sanitized operator summary",
+        "id": "summary"
+      }
+    ],
+    "test_plan": "python -m pytest tests/ -k buildroom -q and python -m hermes_cli.buildroom.validator tests/fixtures/buildroom/demo-chain"
+  },
+  "profile": "coder",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

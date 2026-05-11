@@ -1,0 +1,51 @@
+{
+  "artifact_type": "product-plan",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-05",
+  "parent_id": "br0-04",
+  "payload": {
+    "acceptance_criteria": [
+      "demo fixture validates cleanly",
+      "missing QA evidence is rejected",
+      "invalid trust and delta states are rejected",
+      "operator summary exposes states and next actions"
+    ],
+    "allowed_paths": [
+      "hermes_cli/buildroom/",
+      "tests/fixtures/buildroom/",
+      "tests/test_buildroom_validator.py",
+      "docs/buildroom/"
+    ],
+    "evidence": [
+      "approved spec paths",
+      "task verification requirements"
+    ],
+    "feature_name": "Buildroom contract validator",
+    "non_goals": [
+      "no automatic Kanban task creation",
+      "no cron or gateway configuration mutation",
+      "no secrets/auth/profile runtime reads"
+    ],
+    "protected_surfaces": [
+      "~/.hermes/.env",
+      "~/.hermes/auth.json",
+      "~/.hermes/config.yaml",
+      "gateway and platform configuration",
+      "Cloudflare tunnel configuration",
+      "production trading or broker state"
+    ],
+    "risks": [
+      "autonomy expansion before independent QA",
+      "runtime artifacts accidentally containing secrets",
+      "coder scope creep outside approved build plans"
+    ],
+    "user_story": "As a Hermes operator, I can run a validator over a buildroom directory and see whether the contract chain is clean.",
+    "verification_commands": [
+      "python -m pytest tests/test_buildroom_validator.py -q",
+      "python -m hermes_cli.buildroom.validator tests/fixtures/buildroom/demo-chain"
+    ]
+  },
+  "profile": "analyst",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

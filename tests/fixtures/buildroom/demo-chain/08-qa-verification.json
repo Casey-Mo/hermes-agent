@@ -1,0 +1,22 @@
+{
+  "artifact_type": "qa-verification",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-08",
+  "parent_id": "br0-07",
+  "payload": {
+    "checked_artifacts": [
+      "positive demo validation",
+      "negative missing evidence validation",
+      "negative invalid state validation"
+    ],
+    "evidence": [
+      "pytest buildroom selection",
+      "direct validator smoke test"
+    ],
+    "reviewer": "independent-qa-placeholder",
+    "state": "passed"
+  },
+  "profile": "qa",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

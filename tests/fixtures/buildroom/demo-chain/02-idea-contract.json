@@ -1,0 +1,19 @@
+{
+  "artifact_type": "idea-contract",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-02",
+  "parent_id": "br0-01",
+  "payload": {
+    "estimated_impact": "Makes future adapter work safer by proving artifact shape and handoff order first.",
+    "problem_statement": "Hermes needs a reusable way to validate cross-profile buildroom handoffs before adapter wiring.",
+    "proposed_solution": "Add schemas, a demo room, read-only validator, and operator summary builder.",
+    "research_refs": [
+      "br0-01",
+      "docs/buildroom/spec.md"
+    ],
+    "title": "Buildroom 0 demo validator"
+  },
+  "profile": "subc",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

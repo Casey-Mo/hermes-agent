@@ -1,0 +1,29 @@
+{
+  "artifact_type": "verification",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-07",
+  "parent_id": "br0-06",
+  "payload": {
+    "artifacts_produced": [
+      "schemas module",
+      "validator module",
+      "summary module",
+      "demo fixture",
+      "buildroom tests"
+    ],
+    "commands": [
+      "python -m pytest tests/test_buildroom_validator.py -q",
+      "python -m hermes_cli.buildroom.validator tests/fixtures/buildroom/demo-chain"
+    ],
+    "evidence": [
+      "local command output recorded in kanban handoff"
+    ],
+    "known_issues": [
+      "CLI adapter wiring is intentionally deferred to the next task"
+    ],
+    "status": "passed"
+  },
+  "profile": "coder",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

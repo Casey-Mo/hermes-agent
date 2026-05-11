@@ -1,0 +1,21 @@
+{
+  "artifact_type": "retention-review",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-11",
+  "parent_id": "br0-10",
+  "payload": {
+    "evidence": [
+      "demo fixture exercises the full artifact chain"
+    ],
+    "follow_up": [
+      "wire a hermes buildroom validate CLI adapter",
+      "add runtime-room discovery behind explicit dry-run flags",
+      "assign independent QA before enabling broader use"
+    ],
+    "retention_state": "retain",
+    "value_assessment": "Keep the scaffold as a low-risk foundation for future adapter wiring and dashboard display."
+  },
+  "profile": "retention",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

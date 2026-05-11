@@ -1,0 +1,21 @@
+{
+  "artifact_type": "main-review",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-04",
+  "parent_id": "br0-03",
+  "payload": {
+    "alignment_notes": "The scaffold supports manual buildroom reviews without enabling autonomous execution.",
+    "decision": "aligned",
+    "evidence": [
+      "v1 manual/dry-run guardrail",
+      "independent QA requirement"
+    ],
+    "risks": [
+      "schema drift before adapter wiring",
+      "accidental runtime writes if future commands are not dry-run gated"
+    ]
+  },
+  "profile": "main",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

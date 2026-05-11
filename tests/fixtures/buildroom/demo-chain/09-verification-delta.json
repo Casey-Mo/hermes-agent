@@ -1,0 +1,17 @@
+{
+  "artifact_type": "verification-delta",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-09",
+  "parent_id": "br0-08",
+  "payload": {
+    "delta_state": "none",
+    "evidence": [
+      "QA found no demo-chain deltas in this sanitized fixture"
+    ],
+    "linked_verification_id": "br0-08",
+    "required_actions": []
+  },
+  "profile": "qa",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

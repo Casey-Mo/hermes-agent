@@ -1,0 +1,23 @@
+{
+  "artifact_type": "trust-report",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-10",
+  "parent_id": "br0-09",
+  "payload": {
+    "evidence": [
+      "schema rejects unrecognized fields",
+      "summary redacts sensitive marker strings",
+      "independent QA placeholder confirmed"
+    ],
+    "independent_qa_confirmed": true,
+    "safety_notes": [
+      "read-only validator",
+      "manual/dry-run v1",
+      "no secrets, auth, cron, broker, or HTC mutation"
+    ],
+    "trust_state": "trusted"
+  },
+  "profile": "trust",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

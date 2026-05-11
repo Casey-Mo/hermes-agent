@@ -1,0 +1,25 @@
+{
+  "artifact_type": "research-input",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-01",
+  "parent_id": null,
+  "payload": {
+    "constraints": [
+      "dry-run/manual v1 only",
+      "no HTC product edits",
+      "no secrets or runtime config mutation"
+    ],
+    "evidence": [
+      "docs/buildroom/spec.md acceptance criteria",
+      "kanban parent t_88b90bda sanitized metadata"
+    ],
+    "signals": [
+      "Parent plan asked for a Hermes-wide contract chain scaffold.",
+      "Existing Hermes roles separate research, subc, main, coder, QA, trust, and retention."
+    ],
+    "title": "Hermes-wide buildroom scaffold"
+  },
+  "profile": "research",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

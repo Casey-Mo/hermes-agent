@@ -1,0 +1,23 @@
+{
+  "artifact_type": "intent-review",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-03",
+  "parent_id": "br0-02",
+  "payload": {
+    "decision": "approved",
+    "evidence": [
+      "parent task approval metadata",
+      "guardrail text in child task body"
+    ],
+    "human_approval_required": true,
+    "scope": [
+      "schemas for all 12 artifacts",
+      "sanitized demo fixture",
+      "read-only validator and summary builder",
+      "tests for positive and negative validation"
+    ]
+  },
+  "profile": "main",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}

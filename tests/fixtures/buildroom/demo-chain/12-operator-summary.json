@@ -1,0 +1,19 @@
+{
+  "artifact_type": "operator-summary",
+  "chain_id": "demo-buildroom-0",
+  "contract_id": "br0-12",
+  "parent_id": "br0-11",
+  "payload": {
+    "next_actions": [
+      "manual adapter wiring for hermes buildroom validate/status commands",
+      "add runtime room discovery with explicit dry-run paths only",
+      "schedule independent QA on adapter wiring before any production rollout"
+    ],
+    "rollback_note": "Delete the buildroom scaffold files and fixtures; no runtime state is mutated by the validator.",
+    "status": "clean",
+    "summary": "Buildroom 0 demonstrates a complete sanitized Hermes-wide contract chain from research input through retention review."
+  },
+  "profile": "analyst",
+  "timestamp": "2026-05-10T21:45:00Z",
+  "version": "1.0.0"
+}
