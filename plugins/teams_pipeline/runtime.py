@@ -47,7 +47,13 @@ def build_pipeline_runtime_config(gateway_config: Any) -> dict[str, Any]:
     teams_extra = dict((teams_config.extra or {}) if teams_config else {})
     pipeline_config = dict(teams_extra.get("meeting_pipeline") or {})
 
-    if teams_config and teams_config.enabled:
+    # Outbound meeting-summary delivery does not require the interactive Teams
+    # bot adapter to be enabled. In incoming_webhook mode especially, enabling
+    # the platform would make the gateway try to start a full Teams bot and fail
+    # unless TEAMS_CLIENT_ID/SECRET/TENANT_ID are also configured. Treat
+    # platforms.teams.extra as delivery config even when platforms.teams.enabled
+    # is false.
+    if teams_config:
         teams_delivery = dict(pipeline_config.get("teams_delivery") or {})
 
         delivery_mode = str(teams_extra.get("delivery_mode") or "").strip()
@@ -77,7 +83,7 @@ def build_pipeline_runtime(gateway: Any) -> TeamsMeetingPipeline:
     teams_config = gateway.config.platforms.get(Platform("teams"))
     pipeline_config = build_pipeline_runtime_config(gateway.config)
     teams_delivery = dict(pipeline_config.get("teams_delivery") or {})
-    if teams_config and teams_config.enabled and teams_delivery.get("enabled"):
+    if teams_config and teams_delivery.get("enabled"):
         try:
             from plugins.platforms.teams.adapter import TeamsSummaryWriter
         except ImportError:

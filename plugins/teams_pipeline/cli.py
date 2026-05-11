@@ -213,9 +213,7 @@ def _validate_configuration_snapshot(store: TeamsPipelineStore) -> dict[str, Any
         issues.append("Microsoft Graph app-only credentials are incomplete.")
     if not webhook_enabled:
         issues.append("MSGRAPH_WEBHOOK_ENABLED is not enabled.")
-    if not teams_enabled:
-        warnings.append("Teams outbound delivery is disabled.")
-    elif teams_mode == "incoming_webhook":
+    if teams_mode == "incoming_webhook":
         if not teams_extra.get("incoming_webhook_url"):
             issues.append("TEAMS_INCOMING_WEBHOOK_URL is required for incoming_webhook mode.")
     elif teams_mode == "graph":
@@ -237,6 +235,10 @@ def _validate_configuration_snapshot(store: TeamsPipelineStore) -> dict[str, Any
             issues.append(f"{key} is required for graph delivery mode.")
     else:
         warnings.append("TEAMS_DELIVERY_MODE is not set.")
+
+    # platforms.teams.enabled controls the full interactive Teams bot adapter;
+    # meeting-summary outbound delivery can still be configured via
+    # platforms.teams.extra without starting that adapter.
 
     return {
         "ok": not issues,
