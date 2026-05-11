@@ -2,7 +2,9 @@
 
 **Task:** t_7ba92256
 **Date:** 2026-05-11
-**Status:** For Casey approval
+**Status:** Historical rollout recommendation — superseded by `manual-dry-run-deployment.md`
+
+> **2026-05-11 update:** The three blockers identified in this handoff — protected-surface containment, `buildroom.lock`, and deterministic assignee/idempotency behavior — have since been fixed, tested, reviewed, rebased onto current `origin/main`, and documented in `docs/buildroom/manual-dry-run-deployment.md`. The current approved posture is still manual dry-run only: no cron, no Kanban writes, and no worker dispatch.
 
 ---
 

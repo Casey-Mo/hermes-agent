@@ -1,5 +1,7 @@
 # Buildroom dry-run autonomous proposal receipt — t_d9af34e4
 
+> **Historical receipt note:** This receipt records the original prototype dry run. Its "known gaps" and `coder`/worktree notes were accurate at the time. The current branch has since landed the proposal engine on the primary Buildroom stack, maps proposal assignees to real profiles, uses deterministic idempotency, and honors `buildroom.lock`. See `docs/buildroom/manual-dry-run-deployment.md` for the current deployment runbook.
+
 Generated: 2026-05-11T05:42:54Z
 Workspace: `/Users/caseymoore/.hermes/hermes-agent`
 Proposal engine source used: `/Users/caseymoore/.hermes/hermes-agent/.worktrees/t_2417ce16/hermes_cli/buildroom/proposal.py`
