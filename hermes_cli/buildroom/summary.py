@@ -9,14 +9,14 @@ from typing import Any
 from .validator import load_validated_artifacts, validate_room
 
 
-SENSITIVE_MARKERS = ("api_key", "secret", "token", "password", "credential")
+SENSITIVE_MARKERS = ("api_key", "secret", "token", "password", "credential", "bearer", "authorization")
 SECRET_VALUE_PATTERNS = (
     re.compile(r"(?<![A-Za-z0-9])sk-[A-Za-z0-9][A-Za-z0-9_-]{12,}"),
     re.compile(r"xai-[A-Za-z0-9_-]{12,}"),
     re.compile(r"AIza[0-9A-Za-z_-]{20,}"),
     re.compile(r"ghp_[A-Za-z0-9_]{20,}"),
     re.compile(r"github_pat_[A-Za-z0-9_]+"),
-    re.compile(r"(?i)bearer\\s+[A-Za-z0-9._-]{20,}"),
+    re.compile(r"(?i)bearer\s+[A-Za-z0-9._-]{20,}"),
 )
 
 

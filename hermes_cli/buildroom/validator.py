@@ -204,16 +204,31 @@ def _check_terminal_states(loaded: list[LoadedArtifact], errors: list[str]) -> N
     trust = by_type.get("trust-report")
     retention = by_type.get("retention-review")
     qa = by_type.get("qa-verification")
+    intent = by_type.get("intent-review")
+    main = by_type.get("main-review")
+    verification = by_type.get("verification")
 
     if delta is not None and delta.payload.delta_state == "none" and delta.payload.required_actions:
         errors.append(
             "verification-delta: required_actions must be empty when delta_state is 'none'"
         )
     if trust is not None:
-        if trust.payload.trust_state == "trusted" and not trust.payload.independent_qa_confirmed:
+        trust_is_trusted = trust.payload.trust_state == "trusted"
+        if trust_is_trusted and not trust.payload.independent_qa_confirmed:
             errors.append("trust-report: trust_state 'trusted' requires independent_qa_confirmed=true")
-        if qa is not None and qa.payload.state != "passed" and trust.payload.trust_state == "trusted":
+        if trust_is_trusted and intent is not None and intent.payload.decision != "approved":
+            errors.append("trust-report: trust_state 'trusted' requires intent-review decision 'approved'")
+        if trust_is_trusted and main is not None and main.payload.decision != "aligned":
+            errors.append("trust-report: trust_state 'trusted' requires main-review decision 'aligned'")
+        if trust_is_trusted and verification is not None and verification.payload.status != "passed":
+            errors.append("trust-report: trust_state 'trusted' requires verification status 'passed'")
+        if trust_is_trusted and qa is not None and qa.payload.state != "passed":
             errors.append("trust-report: cannot be trusted when qa-verification did not pass")
+        if trust_is_trusted and delta is not None and delta.payload.delta_state in {"open", "rejected"}:
+            errors.append(
+                "trust-report: trust_state 'trusted' requires verification-delta "
+                f"not be {delta.payload.delta_state!r}"
+            )
     if retention is not None and retention.payload.retention_state == "discard":
         errors.append("retention-review: demo/runtime room cannot end in discard state")
 
