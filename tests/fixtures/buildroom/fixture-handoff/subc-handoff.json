@@ -1,0 +1,48 @@
+{
+  "updated_at": "2026-05-10T20:19:17-05:00",
+  "run_id": "20260510-201914",
+  "items": [
+    {
+      "topic": "hermes-cron",
+      "signal": "Cron inventory currently shows approximately 13 active and 10 paused jobs.",
+      "confidence": "medium",
+      "suggested_walk_mode": "cron-garden"
+    },
+    {
+      "topic": "open-brain-local",
+      "signal": "Open Brain local database is present and queryable.",
+      "confidence": "medium",
+      "suggested_walk_mode": "drift-from-research"
+    },
+    {
+      "topic": "xurl",
+      "signal": "Bounded read-only X collection is active: 32 posts and 4 profiles observed; status=ok.",
+      "confidence": "low-early-signal",
+      "suggested_walk_mode": "drift-from-research"
+    },
+    {
+      "topic": "xurl",
+      "signal": "Seed X post/article observed: I Gave My Hermes + OpenClaw Agents a Subconscious, and Now It Dreams 24/7 | Full Guide",
+      "confidence": "low-early-signal",
+      "suggested_walk_mode": "drift-from-research"
+    },
+    {
+      "topic": "xurl",
+      "signal": "Seed X post/article observed: I run 6 AI agents. Only this one makes the other 5 smarter.",
+      "confidence": "low-early-signal",
+      "suggested_walk_mode": "drift-from-research"
+    },
+    {
+      "topic": "xurl",
+      "signal": "X query returned 10 recent posts; newest sample by gkisokay: I've been testing this self-building Hermes agent for 37 days now.",
+      "confidence": "low-early-signal",
+      "suggested_walk_mode": "drift-from-research"
+    },
+    {
+      "topic": "local-projects",
+      "signal": "Collected metadata for 25 recent top-level Projects directories.",
+      "confidence": "medium",
+      "suggested_walk_mode": "drift-from-research"
+    }
+  ]
+}

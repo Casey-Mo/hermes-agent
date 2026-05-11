@@ -43,6 +43,24 @@ returning dashboard/handoff-safe summaries.
 
 `tests/fixtures/buildroom/demo-chain/` contains a sanitized 12-artifact chain for `demo-buildroom-0`. It intentionally references only docs, Kanban metadata, and local command names; it does not contain credentials, runtime config, or production data.
 
+## Research→Subc handoff adapter
+
+`hermes_cli/buildroom/handoff.py` reads a `subc-handoff.json` file (shaped like the research
+profile's queue item) and creates a dry-run Buildroom room with just the first two artifacts:
+`research-input` and `idea-contract`. It does **not** create approval artifacts, Kanban tasks,
+cron jobs, or mutate Hermes config.
+
+The input model `SubcHandoffInput` forbids extra fields to prevent runtime profile state
+(secrets, tokens) from leaking into fixture or dry-run processing.
+
+For details on the full pipeline, see `spec.md`.
+
+```bash
+python -m hermes_cli.buildroom.handoff \
+    --handoff path/to/subc-handoff.json \
+    --output /path/to/dry-run/dir
+```
+
 ## Running validation
 
 ```bash
