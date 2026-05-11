@@ -207,6 +207,7 @@ def _check_terminal_states(loaded: list[LoadedArtifact], errors: list[str]) -> N
     intent = by_type.get("intent-review")
     main = by_type.get("main-review")
     verification = by_type.get("verification")
+    product_plan = by_type.get("product-plan")
 
     if delta is not None and delta.payload.delta_state == "none" and delta.payload.required_actions:
         errors.append(
@@ -229,6 +230,17 @@ def _check_terminal_states(loaded: list[LoadedArtifact], errors: list[str]) -> N
                 "trust-report: trust_state 'trusted' requires verification-delta "
                 f"not be {delta.payload.delta_state!r}"
             )
+
+    if main is not None and main.payload.risk_band == 3:
+        errors.append("main-review: risk_band 3 is forbidden for autonomous build")
+
+    if product_plan is not None:
+        allowed = set(product_plan.payload.allowed_paths)
+        protected = set(product_plan.payload.protected_surfaces)
+        forbidden_overlap = allowed & protected
+        if forbidden_overlap:
+            errors.append(f"product-plan: allowed_paths contains protected_surfaces: {', '.join(sorted(forbidden_overlap))}")
+
     if retention is not None and retention.payload.retention_state == "discard":
         errors.append("retention-review: demo/runtime room cannot end in discard state")
 

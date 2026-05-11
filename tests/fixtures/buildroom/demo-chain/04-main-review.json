@@ -6,6 +6,7 @@
   "payload": {
     "alignment_notes": "The scaffold supports manual buildroom reviews without enabling autonomous execution.",
     "decision": "aligned",
+    "risk_band": 1,
     "evidence": [
       "v1 manual/dry-run guardrail",
       "independent QA requirement"

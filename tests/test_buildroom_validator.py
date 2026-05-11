@@ -88,6 +88,35 @@ def test_validator_requires_bounded_product_plan_guardrails(tmp_path):
     assert any("product-plan" in error and "allowed_paths" in error for error in report.errors)
 
 
+def test_validator_rejects_band_3_autonomous_build(tmp_path):
+    room = tmp_path / "demo-chain"
+    shutil.copytree(FIXTURE_DIR, room)
+    main_path = room / "04-main-review.json"
+    main = _load_json(main_path)
+    main["payload"]["risk_band"] = 3
+    _write_json(main_path, main)
+
+    report = validate_room(room)
+
+    assert report.valid is False
+    assert any("risk_band 3" in error and "forbidden" in error for error in report.errors)
+
+
+def test_validator_rejects_allowed_path_protected_surface_overlap(tmp_path):
+    room = tmp_path / "demo-chain"
+    shutil.copytree(FIXTURE_DIR, room)
+    plan_path = room / "05-product-plan.json"
+    plan = _load_json(plan_path)
+    overlap = plan["payload"]["protected_surfaces"][0]
+    plan["payload"]["allowed_paths"].append(overlap)
+    _write_json(plan_path, plan)
+
+    report = validate_room(room)
+
+    assert report.valid is False
+    assert any("allowed_paths contains protected_surfaces" in error for error in report.errors)
+
+
 def test_validator_rejects_trusted_state_when_intent_is_rejected(tmp_path):
     room = tmp_path / "demo-chain"
     shutil.copytree(FIXTURE_DIR, room)

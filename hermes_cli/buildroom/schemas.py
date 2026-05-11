@@ -69,6 +69,7 @@ class IntentReviewPayload(StrictPayload):
 
 class MainReviewPayload(StrictPayload):
     decision: Literal["aligned", "not-aligned", "needs-revision"]
+    risk_band: Literal[0, 1, 2, 3]
     alignment_notes: NonEmptyString
     risks: EvidenceList
     evidence: EvidenceList
