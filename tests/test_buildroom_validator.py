@@ -114,7 +114,7 @@ def test_validator_rejects_allowed_path_protected_surface_overlap(tmp_path):
     report = validate_room(room)
 
     assert report.valid is False
-    assert any("allowed_paths contains protected_surfaces" in error for error in report.errors)
+    assert any("allowed_paths conflicts with protected_surfaces" in error for error in report.errors)
 
 
 def test_validator_rejects_trusted_state_when_intent_is_rejected(tmp_path):
@@ -253,3 +253,33 @@ def test_operator_summary_redacts_authorization_and_bearer_in_string_values(tmp_
     assert "Authorization" not in serialized
     assert "Bearer abcdefg" not in serialized
     assert "[redacted-marker]" in serialized
+
+
+def test_validator_rejects_allowed_parent_of_protected_child(tmp_path):
+    room = tmp_path / "demo-chain"
+    shutil.copytree(FIXTURE_DIR, room)
+    plan_path = room / "05-product-plan.json"
+    plan = _load_json(plan_path)
+    plan["payload"]["allowed_paths"] = ["hermes_cli"]
+    plan["payload"]["protected_surfaces"] = ["hermes_cli/config.py"]
+    _write_json(plan_path, plan)
+
+    report = validate_room(room)
+
+    assert report.valid is False
+    assert any("contains" in error and "hermes_cli/config.py" in error for error in report.errors)
+
+
+def test_validator_rejects_allowed_child_inside_protected_parent(tmp_path):
+    room = tmp_path / "demo-chain"
+    shutil.copytree(FIXTURE_DIR, room)
+    plan_path = room / "05-product-plan.json"
+    plan = _load_json(plan_path)
+    plan["payload"]["allowed_paths"] = ["gateway/platforms/telegram.py"]
+    plan["payload"]["protected_surfaces"] = ["gateway/platforms"]
+    _write_json(plan_path, plan)
+
+    report = validate_room(room)
+
+    assert report.valid is False
+    assert any("is inside" in error and "gateway/platforms" in error for error in report.errors)

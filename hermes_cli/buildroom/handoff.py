@@ -23,6 +23,8 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict
 
+from .safety import assert_buildroom_unlocked
+
 from .schemas import (
     IdeaContractPayload,
     ResearchInputPayload,
@@ -226,6 +228,8 @@ def build_dry_run_room(
     Returns:
         Absolute path to the created room directory.
     """
+    assert_buildroom_unlocked()
+
     if chain_id is None:
         ts = datetime.now(timezone.utc).strftime("br-%Y%m%d-%H%M%S")
         chain_id = f"{ts}-{_hex_suffix()}"

@@ -15,6 +15,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
+from .safety import find_protected_surface_violations
 from .schemas import ARTIFACT_ENVELOPE_MODELS, REQUIRED_ARTIFACT_ORDER, BaseArtifact
 
 
@@ -235,11 +236,13 @@ def _check_terminal_states(loaded: list[LoadedArtifact], errors: list[str]) -> N
         errors.append("main-review: risk_band 3 is forbidden for autonomous build")
 
     if product_plan is not None:
-        allowed = set(product_plan.payload.allowed_paths)
-        protected = set(product_plan.payload.protected_surfaces)
-        forbidden_overlap = allowed & protected
-        if forbidden_overlap:
-            errors.append(f"product-plan: allowed_paths contains protected_surfaces: {', '.join(sorted(forbidden_overlap))}")
+        violations = find_protected_surface_violations(
+            product_plan.payload.allowed_paths,
+            product_plan.payload.protected_surfaces,
+        )
+        if violations:
+            formatted = "; ".join(violation.format() for violation in violations)
+            errors.append(f"product-plan: allowed_paths conflicts with protected_surfaces: {formatted}")
 
     if retention is not None and retention.payload.retention_state == "discard":
         errors.append("retention-review: demo/runtime room cannot end in discard state")

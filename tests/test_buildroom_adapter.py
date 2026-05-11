@@ -223,3 +223,15 @@ def test_cli_entry_point_dry_run(tmp_path):
     assert room_path.exists()
     assert (room_path / "01-research-input.json").exists()
     assert (room_path / "02-idea-contract.json").exists()
+
+
+def test_build_dry_run_room_respects_global_buildroom_lock(tmp_path, monkeypatch):
+    hermes_home = tmp_path / "hermes-home"
+    hermes_home.mkdir()
+    (hermes_home / "buildroom.lock").write_text("stop\n", encoding="utf-8")
+    monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+    data = _load_json(FIXTURE_HANDOFF_PATH)
+    parsed = SubcHandoffInput.model_validate(data)
+
+    with pytest.raises(RuntimeError, match="Buildroom global lock is active"):
+        build_dry_run_room(parsed, output_dir=str(tmp_path / "out"), chain_id="locked")
