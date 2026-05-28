@@ -42,8 +42,14 @@ export function usePlugins() {
 
     for (const manifest of manifests) {
       // Inject CSS if specified.
+      const cacheKey = encodeURIComponent(manifest.version || manifest.source || "0");
+      const withPluginVersion = (url: string) => `${url}?v=${cacheKey}`;
+
       if (manifest.css) {
-        const cssUrl = `${HERMES_BASE_PATH}/dashboard-plugins/${manifest.name}/${manifest.css}`;
+        const cssBaseUrl = `${HERMES_BASE_PATH}/dashboard-plugins/${manifest.name}/${manifest.css}`;
+        const cssUrl = import.meta.env.DEV
+          ? `${cssBaseUrl}?hermes_dv=${Date.now()}`
+          : withPluginVersion(cssBaseUrl);
         if (!document.querySelector(`link[href="${cssUrl}"]`)) {
           const link = document.createElement("link");
           link.rel = "stylesheet";
@@ -54,14 +60,16 @@ export function usePlugins() {
 
       // Load JS bundle. In dev, cache-bust so Vite HMR can clear the
       // in-memory registry while the browser would otherwise never
-      // re-execute a previously cached <script> URL.
+      // re-execute a previously cached <script> URL. In production, use the
+      // manifest version as the stable cache key so plugin fixes are not
+      // masked by a browser/CDN cache for the unversioned bundle URL.
       const baseUrl = `${HERMES_BASE_PATH}/dashboard-plugins/${manifest.name}/${manifest.entry}`;
       const scriptSrc = import.meta.env.DEV
         ? `${baseUrl}?hermes_dv=${Date.now()}`
-        : baseUrl;
+        : withPluginVersion(baseUrl);
       if (!import.meta.env.DEV) {
-        if (loadedScripts.current.has(baseUrl)) continue;
-        loadedScripts.current.add(baseUrl);
+        if (loadedScripts.current.has(scriptSrc)) continue;
+        loadedScripts.current.add(scriptSrc);
       }
 
       const script = document.createElement("script");
