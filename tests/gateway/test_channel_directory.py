@@ -7,6 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
+from gateway.config import HomeChannel, Platform
 from gateway.channel_directory import (
     build_channel_directory,
     lookup_channel_type,
@@ -69,6 +70,26 @@ class TestBuildChannelDirectoryWrites:
             result = load_directory()
 
         assert result == previous
+
+    def test_home_channel_is_listed_when_platform_has_no_sessions(self, tmp_path):
+        cache_file = tmp_path / "channel_directory.json"
+        adapter = SimpleNamespace(
+            config=SimpleNamespace(
+                home_channel=HomeChannel(
+                    platform=Platform("ntfy"),
+                    chat_id="topic-123",
+                    name="Hermes ntfy",
+                )
+            )
+        )
+
+        with patch("gateway.channel_directory.DIRECTORY_PATH", cache_file):
+            directory = asyncio.run(build_channel_directory({Platform("ntfy"): adapter}))
+            result = load_directory()
+
+        expected = [{"id": "topic-123", "name": "Hermes ntfy", "type": "home"}]
+        assert directory["platforms"]["ntfy"] == expected
+        assert result["platforms"]["ntfy"] == expected
 
 
 class TestResolveChannelName:

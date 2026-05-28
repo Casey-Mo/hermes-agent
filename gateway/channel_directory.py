@@ -96,6 +96,8 @@ async def build_channel_directory(adapters: Dict[Any, Any]) -> Dict[str, Any]:
     except Exception:
         pass
 
+    _merge_home_channels(adapters, platforms, skip_platforms=_SKIP_SESSION_DISCOVERY)
+
     directory = {
         "updated_at": datetime.now().isoformat(),
         "platforms": platforms,
@@ -107,6 +109,45 @@ async def build_channel_directory(adapters: Dict[Any, Any]) -> Dict[str, Any]:
         logger.warning("Channel directory: failed to write: %s", e)
 
     return directory
+
+
+def _merge_home_channels(
+    adapters: Dict[Any, Any],
+    platforms: Dict[str, List[Dict[str, str]]],
+    *,
+    skip_platforms: frozenset[str],
+) -> None:
+    """Add configured home channels to the directory.
+
+    Some platforms (including plugin adapters like ntfy) do not have an API
+    surface for enumerating channels and may not have any prior session rows.
+    They are still valid send targets when a home channel is configured, so
+    expose that target in ``hermes send --list`` and name resolution.
+    """
+    for platform, adapter in adapters.items():
+        plat_name = getattr(platform, "value", str(platform))
+        if plat_name in skip_platforms:
+            continue
+        config = getattr(adapter, "config", None)
+        home = getattr(config, "home_channel", None)
+        chat_id = getattr(home, "chat_id", None)
+        if not chat_id:
+            continue
+        entry_id = str(chat_id)
+        thread_id = getattr(home, "thread_id", None)
+        if thread_id:
+            entry_id = f"{entry_id}:{thread_id}"
+        entries = platforms.setdefault(plat_name, [])
+        if any(str(entry.get("id")) == entry_id for entry in entries):
+            continue
+        entry: Dict[str, str] = {
+            "id": entry_id,
+            "name": getattr(home, "name", None) or "Home",
+            "type": "home",
+        }
+        if thread_id:
+            entry["thread_id"] = str(thread_id)
+        entries.append(entry)
 
 
 def _build_discord(adapter) -> List[Dict[str, str]]:
